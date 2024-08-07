@@ -1,0 +1,49 @@
+# gerar o pod
+kubectl run nginx-pod --image=nginx:stable
+
+# consultar os pods existentes e status
+kubectl get pods
+
+# consultar os pods existentes e status ao vivo
+kubectl get pods --watch
+
+# editar configuração do pod
+kubectl edit pod nginx-pod
+
+#criar o arquivo yaml (de configurações)
+kubectl apply -f .\primeiro-pod.yaml
+
+# ver o arquivo de configuração do pod
+kubectl describe pod primeiro-pod-declarativo
+
+# deletar pod
+kubectl delete pod nginx-pod
+
+# deletar pod pelo arquivo de definição
+kubectl delete -f .\primeiro-pod.yaml
+
+# entrar no container
+kubectl exec -it portal-noticias -- bash
+
+# criando um service
+kubectl apply -f .\svc-pod-2.yaml
+
+# consultando um service
+kubectl get svc
+NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+kubernetes   ClusterIP   10.96.0.1        <none>        443/TCP        22h
+svc-pod-1    NodePort    10.109.175.190   <none>        80:30489/TCP   2m58s
+svc-pod-2    ClusterIP   10.101.137.139   <none>        9000/TCP       21h
+
+# entrando con container
+kubectl exec -it pod-1 -- bash
+
+# fazendo teste de conexao
+root@pod-1:/# curl  10.101.137.139:80
+
+# verifi ip pods
+kubectl get pods -o wide
+NAME              READY   STATUS    RESTARTS   AGE     IP          NODE             NOMINATED NODE   READINESS GATES
+pod-1             1/1     Running   0          19m     10.1.0.21   docker-desktop   <none>           <none>
+pod-2             1/1     Running   0          3m45s   10.1.0.23   docker-desktop   <none>           <none>
+portal-noticias   1/1     Running   0          36m     10.1.0.20   docker-desktop   <none>           <none>
